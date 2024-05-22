@@ -1,0 +1,14 @@
+[package]
+name = "wcm"
+version = "0.1.0"
+edition = "2021"
+build = "build.rs"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies.windows]
+version = "0.56.0"
+features = [ "Win32_Foundation" ]
+
+[dependencies.clap]
+version = "3.2.25"
