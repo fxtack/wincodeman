@@ -12,3 +12,6 @@ features = [ "Win32_Foundation" ]
 
 [dependencies.clap]
 version = "3.2.25"
+
+[build-dependencies]
+embed-resource = "1.5.1"
