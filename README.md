@@ -25,4 +25,13 @@ OPTIONS:
 
 ## Example
 
-TODO
+### Query NTSTATUS '0xc0000022'
+
+```
+PS C:\wincodeman> wcm.exe --ntstatus 0xc0000022
+   NTSTATUS: 0xc0000022
+Win32 Error: 5
+    HRESULT: 0x80070005
+    Message: {Access Denied}
+A process has requested access to an object, but has not been granted those access rights.
+```
