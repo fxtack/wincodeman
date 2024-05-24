@@ -1,8 +1,11 @@
 use std::process::Command;
 
 fn main() {
+
     if cfg!(target_os = "windows") {
         embed_resource::compile("./wincodeman.rc");
+    } else {
+        panic!("this crate can only be compiled on Windows");
     }
 
     // Inject git commit version information.
