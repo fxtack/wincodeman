@@ -3,7 +3,7 @@ Through this tool, you can quickly query the conversion values and error message
 
 Windows result/error code relationship:
 
-![wincodes.png](https://github.com/fxtack/wincodeman/assets/59989422/31389733-e66c-488b-ac68-9fd0617de664)
+<img src="https://github.com/fxtack/wincodeman/assets/59989422/d4d0e89a-7b75-4e44-ad4c-2ae9403fe6a3" width="40%"/>
 
 ## Usage
 
