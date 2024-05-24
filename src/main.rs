@@ -48,8 +48,8 @@ fn main() {
         match parse_code(ntstatus) {
             Ok(ntstatus_code) => {
                 let ntstatus = NTSTATUS(ntstatus_code as i32);
-                let err = windows::core::Error::from(ntstatus);
                 let win32error_code = unsafe { RtlNtStatusToDosError(ntstatus) };
+                let err = windows::core::Error::from(ntstatus);
                 println!("   NTSTATUS: 0x{:08x}\nWin32 Error: {}\n    HRESULT: 0x{:08x}\n    Message: {}",
                          ntstatus.0,
                          win32error_code,
@@ -95,4 +95,38 @@ fn parse_code(code: &str) -> Result<i64, ParseIntError> {
     }?;
 
     Ok(if is_negative { -number } else { number })
+}
+
+#[cfg(test)]
+mod tests {
+    use windows::core::HRESULT;
+    use windows::Win32::Foundation::{E_ACCESSDENIED, ERROR_ACCESS_DENIED, NTSTATUS, RtlNtStatusToDosError, STATUS_ACCESS_DENIED, WIN32_ERROR};
+    use super::parse_code;
+    #[test]
+    fn test_parse_code() {
+        let cases = [
+            "0xc0000022",
+            "0x80070005",
+            "5",
+            "-2147024891",
+            "3221225506",
+            "-1073741790"
+        ];
+        for case in cases {
+            let _ = parse_code(case).unwrap();
+        }
+    }
+
+    #[test]
+    fn test_ntstatus() {
+        let ntstatus_code = parse_code("0xc0000022").unwrap();
+        let ntstatus = NTSTATUS(ntstatus_code as i32);
+        assert_eq!(ntstatus, STATUS_ACCESS_DENIED);
+
+        let win32error_code = unsafe { WIN32_ERROR(RtlNtStatusToDosError(ntstatus)) };
+        assert_eq!(win32error_code, ERROR_ACCESS_DENIED);
+
+        let hresult = HRESULT::from_win32(win32error_code.0);
+        assert_eq!(hresult, E_ACCESSDENIED);
+    }
 }
