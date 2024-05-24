@@ -1,7 +1,7 @@
 use std::num::ParseIntError;
 use clap::{App, Arg, ArgAction, ArgGroup};
-use windows::core::HRESULT;
-use windows::Win32::Foundation::{NTSTATUS, RtlNtStatusToDosError};
+use windows::core::{HRESULT};
+use windows::Win32::Foundation::{NTSTATUS, RtlNtStatusToDosError, WIN32_ERROR};
 
 fn main() {
     #[cfg(not(windows))]
@@ -54,16 +54,29 @@ fn main() {
                          ntstatus.0,
                          win32error_code,
                          HRESULT::from_win32(win32error_code).0,
-                         err.message())
+                         err.message());
             }
-            Err(err) => {
-                eprintln!("invalid code value '{}', error: {}", ntstatus, err)
-            }
+            Err(er) => eprintln!("invalid code value '{}', error: {}", ntstatus, er)
         }
     } else if let Some(win32err) = matches.value_of("win32err") {
-        println!("{}", win32err);
+        match parse_code(win32err) {
+            Ok(win32error_code) => {
+                let err = windows::core::Error::from(WIN32_ERROR(win32error_code as u32));
+                println!("Win32 Error: {}\n    HRESULT: 0x{:08x}\n    Message: {}",
+                         win32error_code,
+                         HRESULT::from_win32(win32error_code as u32).0,
+                         err.message());
+            }
+            Err(er) => eprintln!("invalid code value '{}', error: {}", win32err, er)
+        }
     } else if let Some(hresult) = matches.value_of("hresult") {
-        println!("{}", hresult);
+        match parse_code(hresult) {
+            Ok(hresult_code) => {
+                let err = windows::core::Error::from_hresult(HRESULT(hresult_code as i32));
+                println!(" HRESULT: 0x{:08x}\n Message: {}", err.code().0, err.message());
+            }
+            Err(er) => eprintln!("invalid code value '{}', error: {}", hresult, er)
+        }
     };
 }
 
