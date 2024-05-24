@@ -1,10 +1,17 @@
 [package]
-name = "wcm"
+authors = ["Fxtack <fxtack@foxmail.com>"]
+categories = ["command-line-utilities"]
+description = "The Windows error/status code manual."
+homepage = "https://github.com/fxtack/wincodeman"
+license = "MIT"
+name = "wincodeman"
 version = "0.1.0"
 edition = "2021"
 build = "build.rs"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[[bin]]
+name = "wcm"
+path = "src/main.rs"
 
 [dependencies.windows]
 version = "0.56.0"
