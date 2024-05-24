@@ -4,6 +4,9 @@ use windows::core::HRESULT;
 use windows::Win32::Foundation::{NTSTATUS, RtlNtStatusToDosError};
 
 fn main() {
+    #[cfg(not(windows))]
+    { panic!("this program can only be run on Windows"); }
+    
     let version = format!("v{}.{}", env!("CARGO_PKG_VERSION"), env!("commit_hash"));
     let matches = App::new("wcm")
         .version(version.as_str())
