@@ -5,7 +5,7 @@ description = "The Windows error/status code manual."
 repository = "https://github.com/fxtack/wincodeman"
 license = "MIT"
 name = "wincodeman"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 build = "build.rs"
 
