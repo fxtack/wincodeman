@@ -2,7 +2,7 @@
 authors = ["Fxtack <fxtack@foxmail.com>"]
 categories = ["command-line-utilities"]
 description = "The Windows error/status code manual."
-homepage = "https://github.com/fxtack/wincodeman"
+repository = "https://github.com/fxtack/wincodeman"
 license = "MIT"
 name = "wincodeman"
 version = "0.1.0"
